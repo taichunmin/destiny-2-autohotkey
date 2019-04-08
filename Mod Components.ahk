@@ -14,9 +14,8 @@ SetKeyDelay -1
 SetMouseDelay -1
 SetBatchLines -1
 
-
 F9::
-Macro1:
+; 刷模組元件
 Loop
 {
     WinActivate, Destiny 2 ahk_class Tiger D3D Window
@@ -147,4 +146,26 @@ Loop
 }
 Return
 
-F10::Reload
+F10::
+; 左鍵連點
+Loop
+{
+    WinActivate, Destiny 2 ahk_class Tiger D3D Window
+    Sleep, 1000
+    Click
+}
+Return
+
+F11::
+; 連續拆裝
+Loop
+{
+    WinActivate, Destiny 2 ahk_class Tiger D3D Window
+    Send, {f Down}
+    Sleep, 2000
+    Send, {f Up}
+    Sleep, 300
+}
+Return
+
+F12::Reload
