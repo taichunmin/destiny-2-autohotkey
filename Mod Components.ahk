@@ -176,11 +176,11 @@ Loop
     ; 確認是否要進入 PVP
     Click, 831, 840, 0
     Sleep 500
-    PixelGetColor, color, 831, 840, RGB
+    PixelGetColor, color, 828, 837, RGB
     red := (color >> 16) & 0xFF
     green := (color >> 8) & 0xFF
     blue := color & 0xFF
-    if ((0xD5 <= red && red <= 0xDB) && (0xD5 <= green && green <= 0xDB) && (0xD5 <= blue && blue <= 0xDB)) {
+    if ((0xE4 <= red && red <= 0xF4) && (0xDE <= green && green <= 0xFE) && (0xD5 <= blue && blue <= 0xF5)) {
         ; 開啟導航
         Click, 960, 868, 0
         Sleep, 100
@@ -201,7 +201,7 @@ Loop
         Click, 472, 409 Left, Down
         Sleep, 100
         Click, 472, 409 Left, Up
-        Sleep, 3000
+        Sleep, 1000
         ; 點開始
         Click, 1583, 896, 0
         Sleep, 100
@@ -219,6 +219,14 @@ Loop
     Sleep, 700
     Send, {d Up}
     Sleep, 100
+    Send, {c Down}
+    Sleep, 700
+    Send, {c Up}
+    Sleep, 100
+    Send, {space Down}
+    Sleep, 700
+    Send, {space Up}
+    Sleep, 100
 }
 Return
 
@@ -227,7 +235,7 @@ F6::
     ; 確認是否要進入 PVP
     Click, 831, 840, 0
     Sleep 500
-    PixelGetColor, color, 831, 840, RGB
+    PixelGetColor, color, 828, 837, RGB
     red := (color >> 16) & 0xFF
     green := (color >> 8) & 0xFF
     blue := color & 0xFF
