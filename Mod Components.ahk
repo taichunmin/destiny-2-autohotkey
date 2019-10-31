@@ -14,7 +14,7 @@ SetKeyDelay -1
 SetMouseDelay -1
 SetBatchLines -1
 
-F9::
+F2::
 ; 刷模組元件
 Loop
 {
@@ -146,7 +146,7 @@ Loop
 }
 Return
 
-F10::
+F3::
 ; 左鍵連點
 Loop
 {
@@ -156,7 +156,7 @@ Loop
 }
 Return
 
-F11::
+F4::
 ; 連續拆裝
 Loop
 {
@@ -167,5 +167,71 @@ Loop
     Sleep, 300
 }
 Return
+
+F5::
+; PVP 混戰模式掛機
+Loop
+{
+    WinActivate, Destiny 2 ahk_class Tiger D3D Window
+    ; 確認是否要進入 PVP
+    Click, 831, 840, 0
+    Sleep 500
+    PixelGetColor, color, 831, 840, RGB
+    red := (color >> 16) & 0xFF
+    green := (color >> 8) & 0xFF
+    blue := color & 0xFF
+    if ((0xD5 <= red && red <= 0xDB) && (0xD5 <= green && green <= 0xDB) && (0xD5 <= blue && blue <= 0xDB)) {
+        ; 開啟導航
+        Click, 960, 868, 0
+        Sleep, 100
+        Click, 960, 868 Left, Down
+        Sleep, 100
+        Click, 960, 868 Left, Up
+        Sleep, 3000
+        ; 開PVP
+        Click, 1204, 821, 0
+        Sleep, 100
+        Click, 1204, 821 Left, Down
+        Sleep, 100
+        Click, 1204, 821 Left, Up
+        Sleep, 3000
+        ; 點混戰
+        Click, 472, 409, 0
+        Sleep, 100
+        Click, 472, 409 Left, Down
+        Sleep, 100
+        Click, 472, 409 Left, Up
+        Sleep, 3000
+        ; 點開始
+        Click, 1583, 896, 0
+        Sleep, 100
+        Click, 1583, 896 Left, Down
+        Sleep, 100
+        Click, 1583, 896 Left, Up
+        Sleep, 10000
+    }
+    ; 左右移動
+    Send, {a Down}
+    Sleep, 700
+    Send, {a Up}
+    Sleep, 100
+    Send, {d Down}
+    Sleep, 700
+    Send, {d Up}
+    Sleep, 100
+}
+Return
+
+F6::
+    WinActivate, Destiny 2 ahk_class Tiger D3D Window
+    ; 確認是否要進入 PVP
+    Click, 831, 840, 0
+    Sleep 500
+    PixelGetColor, color, 831, 840, RGB
+    red := (color >> 16) & 0xFF
+    green := (color >> 8) & 0xFF
+    blue := color & 0xFF
+    MsgBox color = %color%, red = %red%, green = %green%, blue = %blue%.
+    Return
 
 F12::Reload
