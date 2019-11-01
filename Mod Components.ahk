@@ -180,7 +180,7 @@ Loop
     red := (color >> 16) & 0xFF
     green := (color >> 8) & 0xFF
     blue := color & 0xFF
-    if ((0xE4 <= red && red <= 0xF4) && (0xDE <= green && green <= 0xFE) && (0xD5 <= blue && blue <= 0xF5)) {
+    if ((0xE4 <= red && red <= 0xF4 && 0xDE <= green && green <= 0xFE && 0xD5 <= blue && blue <= 0xF5) || (0xCF <= red && red <= 0xDF && 0xD1 <= green && green <= 0xF1 && 0xD2 <= blue && blue <= 0xF2)) {
         ; 開啟導航
         Click, 960, 868, 0
         Sleep, 100
