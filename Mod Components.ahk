@@ -23,10 +23,12 @@ LeftDownUp(x, y, t1:=200, t2:=200) {
     Sleep, t2
 }
 
-isSimilarColor(c1, c2, delta) {
-    local r1 := (c1 >> 16) & 0xFF, g1 := (c1 >> 8) & 0xFF, b1 := c1 & 0xFF
-    local r2 := (c2 >> 16) & 0xFF, g2 := (c2 >> 8) & 0xFF, b2 := c2 & 0xFF
-    return ((r1 - r2)**2 + (g1 - g2)**2 + (b1 - b2)**2) <= delta
+isSimilarColor(x, y, c, delta) {
+    PixelSearch px, py, x-1, y-1, x+1, y+1, c, delta, RGB
+    if ErrorLevel
+        return 0
+    else
+        return 1
 }
 
 KeyDownUp(key, t1:=200, t2:=200) {
@@ -204,16 +206,14 @@ Loop
         ; 確認是否要進入 PVP
         Click, 831, 840, 0
         Sleep 500
-        PixelGetColor, color, 828, 837, RGB
-        if (isSimilarColor(color, 0xECE6DD, 2000) || isSimilarColor(color, 0xD7D9DB, 2000)) {
+        if (isSimilarColor(828, 837, 0xECE6DD, 25) || isSimilarColor(828, 837, 0xD7D9DB, 25)) {
             LeftDownUp(960, 868, , 3000) ; 開啟導航
             LeftDownUp(1204, 821, , 3000) ; 開PVP
             LeftDownUp(472, 409, , 1000) ; 點混戰adcqv 
             LeftDownUp(1583, 896, , 10000) ; 點開始
         }
         ; 施放電弧之魂
-        PixelGetColor, color, 263, 932, RGB
-        if (isSimilarColor(color, 0xACD6EA, 10000)) {
+        if (isSimilarColor(263, 932, 0x7FABC7, 25) || isSimilarColor(263, 932, 0xAFD8F0, 25)) {
             KeyDownUp("q", 3000)
             Loop, 8 {
                 ; 避免被踢下線
