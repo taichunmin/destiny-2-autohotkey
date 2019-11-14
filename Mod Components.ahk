@@ -14,6 +14,33 @@ SetKeyDelay -1
 SetMouseDelay -1
 SetBatchLines -1
 
+LeftDownUp(x, y, t1:=200, t2:=200) {
+    Click, %x%, %y%, 0
+    Sleep, 30
+    Click, %x%, %y% Left, Down
+    Sleep, t1
+    Click, %x%, %y% Left, Up
+    Sleep, t2
+}
+
+isSimilarColor(c1, c2, delta) {
+    local r1 := (c1 >> 16) & 0xFF, g1 := (c1 >> 8) & 0xFF, b1 := c1 & 0xFF
+    local r2 := (c2 >> 16) & 0xFF, g2 := (c2 >> 8) & 0xFF, b2 := c2 & 0xFF
+    return ((r1 - r2)**2 + (g1 - g2)**2 + (b1 - b2)**2) <= delta
+}
+
+KeyDownUp(key, t1:=200, t2:=200) {
+    Send, {%key% down}
+    Sleep, t1
+    Send, {%key% up}
+    Sleep, t2
+}
+
+printPointColor(x, y) {
+    PixelGetColor, color, %x%, %y%, RGB
+    MsgBox color = %color%
+}
+
 F2::
 ; 刷模組元件
 Loop
@@ -173,73 +200,41 @@ F5::
 Loop
 {
     WinActivate, Destiny 2 ahk_class Tiger D3D Window
-    ; 確認是否要進入 PVP
-    Click, 831, 840, 0
-    Sleep 500
-    PixelGetColor, color, 828, 837, RGB
-    red := (color >> 16) & 0xFF
-    green := (color >> 8) & 0xFF
-    blue := color & 0xFF
-    if ((0xE4 <= red && red <= 0xF4 && 0xDE <= green && green <= 0xFE && 0xD5 <= blue && blue <= 0xF5) || (0xCF <= red && red <= 0xDF && 0xD1 <= green && green <= 0xF1 && 0xD2 <= blue && blue <= 0xF2)) {
-        ; 開啟導航
-        Click, 960, 868, 0
-        Sleep, 100
-        Click, 960, 868 Left, Down
-        Sleep, 100
-        Click, 960, 868 Left, Up
-        Sleep, 3000
-        ; 開PVP
-        Click, 1204, 821, 0
-        Sleep, 100
-        Click, 1204, 821 Left, Down
-        Sleep, 100
-        Click, 1204, 821 Left, Up
-        Sleep, 3000
-        ; 點混戰
-        Click, 472, 409, 0
-        Sleep, 100
-        Click, 472, 409 Left, Down
-        Sleep, 100
-        Click, 472, 409 Left, Up
-        Sleep, 1000
-        ; 點開始
-        Click, 1583, 896, 0
-        Sleep, 100
-        Click, 1583, 896 Left, Down
-        Sleep, 100
-        Click, 1583, 896 Left, Up
-        Sleep, 10000
+    if WinActive("Destiny 2 ahk_class Tiger D3D Window") {
+        ; 確認是否要進入 PVP
+        Click, 831, 840, 0
+        Sleep 500
+        PixelGetColor, color, 828, 837, RGB
+        if (isSimilarColor(color, 0xECE6DD, 2000) || isSimilarColor(color, 0xD7D9DB, 2000)) {
+            LeftDownUp(960, 868, , 3000) ; 開啟導航
+            LeftDownUp(1204, 821, , 3000) ; 開PVP
+            LeftDownUp(472, 409, , 1000) ; 點混戰adcqv 
+            LeftDownUp(1583, 896, , 10000) ; 點開始
+        }
+        ; 施放電弧之魂
+        PixelGetColor, color, 263, 932, RGB
+        if (isSimilarColor(color, 0xACD6EA, 10000)) {
+            KeyDownUp("q", 3000)
+            Loop, 8 {
+                ; 避免被踢下線
+                KeyDownUp("a", 700)
+                KeyDownUp("d", 700)
+            }
+            KeyDownUp("v")
+        }
+        ; 避免被踢下線
+        KeyDownUp("a", 700)
+        KeyDownUp("d", 700)
+        KeyDownUp("c")
+        KeyDownUp("space")
     }
-    ; 左右移動
-    Send, {a Down}
-    Sleep, 700
-    Send, {a Up}
-    Sleep, 100
-    Send, {d Down}
-    Sleep, 700
-    Send, {d Up}
-    Sleep, 100
-    Send, {c Down}
-    Sleep, 700
-    Send, {c Up}
-    Sleep, 100
-    Send, {space Down}
-    Sleep, 700
-    Send, {space Up}
-    Sleep, 100
+    Sleep, 1000
 }
 Return
 
 F6::
     WinActivate, Destiny 2 ahk_class Tiger D3D Window
-    ; 確認是否要進入 PVP
-    Click, 831, 840, 0
-    Sleep 500
-    PixelGetColor, color, 828, 837, RGB
-    red := (color >> 16) & 0xFF
-    green := (color >> 8) & 0xFF
-    blue := color & 0xFF
-    MsgBox color = %color%, red = %red%, green = %green%, blue = %blue%.
+    printPointColor(263, 932)
     Return
 
 F12::Reload
