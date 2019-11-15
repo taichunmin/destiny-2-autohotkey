@@ -209,7 +209,7 @@ Loop
         if (isSimilarColor(828, 837, 0xECE6DD, 25) || isSimilarColor(828, 837, 0xD7D9DB, 25)) {
             LeftDownUp(960, 868, , 3000) ; 開啟導航
             LeftDownUp(1204, 821, , 3000) ; 開PVP
-            LeftDownUp(472, 409, , 1000) ; 點混戰adcqv 
+            LeftDownUp(472, 409, , 1000) ; 點混戰
             LeftDownUp(1583, 896, , 10000) ; 點開始
         }
         ; 施放電弧之魂
